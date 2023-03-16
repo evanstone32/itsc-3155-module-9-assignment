@@ -5,6 +5,9 @@ from src.repositories.movie_repository import get_movie_repository
 app = Flask(__name__)
 
 movie_repository = get_movie_repository()
+dict = {'Bob goes to space': '3 Stars',
+        'The Revengers':'4 stars',
+        'Handy Man Can': '1 Star'}
 
 
 @app.get('/')
@@ -14,8 +17,8 @@ def index():
 
 @app.get('/movies')
 def list_all_movies():
-    # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    # TODO:
+    return render_template('list_all_movies.html', list_movies_active=True,dict=dict)
 
 
 @app.get('/movies/new')
