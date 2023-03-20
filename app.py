@@ -5,8 +5,8 @@ from src.repositories.movie_repository import get_movie_repository
 app = Flask(__name__)
 
 movie_repository = get_movie_repository()
-dict = {'Bob goes to space': '3 Stars',
-        'The Revengers':'4 stars',
+dict = {'Bob goes to space': '3 Star',
+        'The Revengers':'4 Star',
         'Handy Man Can': '1 Star'}
 
 
@@ -23,6 +23,7 @@ def list_all_movies():
 
 @app.get('/movies/new')
 def create_movies_form():
+    
     return render_template('create_movies_form.html', create_rating_active=True)
 
 
@@ -30,9 +31,12 @@ def create_movies_form():
 def create_movie():
     # TODO: Feature 2
     # After creating the movie in the database, we redirect to the list all movies page
-    print(request.form)
+    title = request.form.get('title')
+    rating = request.form.get('rating')
+    dict[title] = rating
     movie_repository.create_movie(request.form.get(
         'title'), request.form.get('director'), request.form.get('rating'))
+    print(request.form)
     return redirect('/movies')
 
 
