@@ -5,9 +5,13 @@ from src.repositories.movie_repository import get_movie_repository
 app = Flask(__name__)
 
 movie_repository = get_movie_repository()
-dict = {'Bob goes to space': '3 Star',
-        'The Revengers':'4 Star',
-        'Handy Man Can': '1 Star'}
+dict = {'Bob goes to space': '3 Stars',
+        'The Revengers': '4 Stars',
+        'Handy Man Can': '1 Stars'}
+
+movie_repository.create_movie('Bob goes to space', "directory 1", '3 Stars')
+movie_repository.create_movie('The Revengers', "directory 2", '4 Stars')
+movie_repository.create_movie('Handy Man Can', "directory 3", '1 Stars')
 
 
 @app.get('/')
@@ -18,12 +22,13 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO:
-    return render_template('list_all_movies.html', list_movies_active=True,dict=dict)
+
+    return render_template('list_all_movies.html', list_movies_active=True, dict=dict)
 
 
 @app.get('/movies/new')
 def create_movies_form():
-    
+
     return render_template('create_movies_form.html', create_rating_active=True)
 
 
@@ -36,6 +41,7 @@ def create_movie():
     dict[title] = rating
     movie_repository.create_movie(request.form.get(
         'title'), request.form.get('director'), request.form.get('rating'))
+
     print(request.form)
     return redirect('/movies')
 
@@ -43,4 +49,17 @@ def create_movie():
 @app.get('/movies/search')
 def search_movies():
     # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+
+    search_active = False
+
+    search = request.args.get('search-field')
+    print(search)
+    if search is not None:
+        search_active = True
+
+        mr = movie_repository.get_movie_by_title(search)
+        print(mr.title)
+
+        return render_template('search_movies.html', search_active=search_active, movie_repository=mr)
+
+    return render_template('search_movies.html', search_active=search_active)

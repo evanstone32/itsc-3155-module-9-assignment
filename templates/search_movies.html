@@ -4,6 +4,39 @@
 
 {% block body %}
 <h1 class="mb-5">Search Movie Ratings</h1>
-<p class="mb-3">Search for a movie rating below</p>
+<p class="mb-3">Search for a movie rating (by title) below</p>
 <!-- TODO: Feature 3 -->
+
+    <form method="get" action="">
+
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Movie Search" aria-label="Movie Search" aria-describedby="search-field" id="search-field"name='search-field'>
+            <button class="btn btn-outline-primary" type="submit" id="search-btn">Submit</button>
+        </div>  
+    </form>
+
+
+    {% if search_active %}
+        <div class="container">
+            <div class="row">
+        <div class="col">
+        <ul class="list-group w-100">
+            <li class="list-group-item"><b><h2>Title</h2></b></li>
+            <li class="list-group-item">{{movie_repository.title}}</li>
+        </ul>
+        </div>
+        
+        <div class="col">
+        <ul class="list-group w-100">
+            <li class="list-group-item"><b><h2>Ratings</h2></b></li>
+            <li class="list-group-item" >{{movie_repository.rating}}</li>
+        </ul>
+        </div>
+        
+        </div>
+        </div>
+        
+    {% endif %}
+
+
 {% endblock %}
